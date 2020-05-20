@@ -16,6 +16,7 @@ use Doctrine\Common\Annotations\Reader;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\Cache\CacheProvider;
+use Doctrine\Common\Cache\VoidCache;
 use Ray\Di\AbstractModule;
 use Ray\Di\Scope;
 
@@ -29,7 +30,7 @@ class QueryRepositoryModule extends AbstractModule
         $this->bind(Expiry::class)->toInstance(new Expiry(60, 60 * 60, 60 * 60 * 24));
         $this->bind(QueryRepositoryInterface::class)->to(QueryRepository::class)->in(Scope::SINGLETON);
         $this->bind(Cache::class)->annotatedWith(Storage::class)->toProvider(StorageProvider::class)->in(Scope::SINGLETON);
-        $this->bind(CacheProvider::class)->annotatedWith(Storage::class)->to(ArrayCache::class)->in(Scope::SINGLETON);
+        $this->bind(CacheProvider::class)->annotatedWith(Storage::class)->to(VoidCache::class)->in(Scope::SINGLETON);
         $this->bind(EtagSetterInterface::class)->to(EtagSetter::class)->in(Scope::SINGLETON);
         $this->bind(NamedParameterInterface::class)->to(NamedParameter::class)->in(Scope::SINGLETON);
         $this->bind(Reader::class)->to(AnnotationReader::class)->in(Scope::SINGLETON);
